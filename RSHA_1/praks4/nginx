@@ -1,0 +1,12 @@
+#!/bin/bash
+
+apt --assume-yes update
+apt --assume-yes upgrade
+	if [ "dpkg-query -W -f='${Status}' nginx | grep -c "ok installed"" == 1 ]; then
+	echo "Nginx on juba süsteemis olemas"
+	exit
+	else
+	echo "Nginx paigaldatakse"
+	apt --assume-yes install nginx
+	echo "Nginx on süsteemi installeeritud"
+	fi

@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+#
+#
+#
+#phpmyadmin installeerimine
+sudo apt --assume-yes update
+sudo apt -assume-yes upgrade
+if [ "dpkg-query -W -f='${Status}' phpmyadmin | grep -c "ok installed"" == 1 ] && [ "dpkg-query -W -f='${Status}' apache2 | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' mysql-server | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' libapache2-mod-php | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' php-mcrypt | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' php-mysql | grep -c "ok installed""  == 1 ]; then
+echo "phpmyadmin on juba olemas"
+exit
+else
+echo "installeerimine"
+sudo apt --assume-yes install mysql-server php libapache2-mod-php php-mcrypt php-mysql phpmyadmin
+mysql_secure_installation
+echo "phpmyadmin on installitud"
+fi

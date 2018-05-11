@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+#
+#
+#
+user=$1
+kuup=$(date +"%Y-%m-%d.%H-%M")
+#
+if [ $# -ne 1 ]; then
+	echo "Kasutusjuhend: $0 Kasutajanimi"
+else
+echo "sisesta andmebaasi nimi"
+read datab
+mysqldump -u$user $datab > /home/$user/$kuup.$datab.backup.sql
+sudo mkdir /mysql_backup
+sudo chown "$user"":""$user" /mysql_backup
+tar -czvf /home/$user/$kuup.$datab.backup.tar.gz /home/$user/$kuup.$datab.backup.sql
+mv /home/$user/$kuup.$datab.backup.tar.gz /mysql_backup/
+
+fi

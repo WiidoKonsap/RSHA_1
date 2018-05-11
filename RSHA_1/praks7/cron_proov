@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+#
+#
+#
+#
+kasutaja=`whoami`
+echo 'SHELL = /bin/bash' > proov.test
+echo 'MAILTO= root' >> proov.test
+echo '0 0,2,4,6,8,10,12,14,16,18,20,22 * * * root "/home/user/rsha/praks6/lisa_db $kasutaja"' >> proov.test
+echo '0 0 * * * root "/home/user/rsha/praks6/varunda_db-kasutaja $kasutaja"' >> proov.test
+crontab /home/user/rsha/praks7/proov.test

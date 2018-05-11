@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+#
+#
+#
+#
+kasutaja=$1
+public=/home/$kasutaja/public
+#
+if [ $# -ne 1 ]; then
+	echo "Kasutusjuhend: $0 Kasutajanimi"
+
+elif [ ! -d $public ]; then
+	mkdir $public
+	chmod -R 751 $public
+	chown -R $kasutaja:www-data $public
+	sed -i 's/public_html/public/g' /etc/apache2/mods-available/userdir.conf 
+	a2enmod userdir
+service apache2 restart
+
+else
+	echo "Kataloog $public juba eksisteerib"
+	echo "Kontrollin kataloogi õigusi"
+if [ "stat -c "%a" $public" != 751 ]; then
+	echo " Õigused olemas kuid valesti"
+	chmod -R 751 $public
+	chown -R $kasutaja:www-data $public
+	echo "Õigused on õigesti seadistatud"
+if [ $? -eq 0 ];
+then
+echo "Kaust on tehtud ning õigete õigustega"
+else
+echo "Esines probleem veebilehe loomisel"
+echo "Veakood on: $?"
+fi
+fi
+fi

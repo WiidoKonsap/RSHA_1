@@ -1,0 +1,13 @@
+#!/bin/bash
+
+sudo apt --assume-yes update
+sudo apt --assume-yes upgrade
+	if [ "dpkg-query -W -f='${Status}' phpmyadmin | grep -c "ok installed"" == 1 ] && [ "dpkg-query -W -f='${Status}' apache2 | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' mysql-server | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' libapache2-mod-php | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' php-mcrypt | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' php-mysql | grep -c "ok installed""  == 1 ]; then
+                echo "PhpMyAdmin on juba süsteemis olemas!"
+                exit
+        else
+        echo "vajalike failide paigaldmine..."
+        sudo apt --assume-yes install apache2 mysql-server php libapache2-mod-php php-mcrypt php-mysql phpmyadmin
+        mysql_secure_installation
+	echo "PhpMyAdmin paigaldatud"
+        fi

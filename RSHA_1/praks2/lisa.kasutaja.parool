@@ -1,0 +1,18 @@
+#!/bin/bash
+#kasutaja lisamine
+if [ $# -ne 1 ]; then
+	echo "kasutajajuhend: $0 failinimi"
+else
+failinimi=$1
+if [ -f $failinimi -a -r $failinimi ]; then
+	echo "fail on korras"
+	for rida in $(cat $failinimi)
+	do
+	kasutajanimi=$(echo "$rida" | cut -f1 -d:)
+	sh lisa.kasutaja $kasutajanimi
+	echo "$rida" | chpasswd #saab anda kasutajale parooli
+	done
+else
+	echo "probleem failiga $failinimi"
+fi
+fi

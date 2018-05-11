@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+sudo apt --assume-yes update
+sudo apt --assume-yes upgrade
+	if [ "dpkg-query -W -f='${Status}' mysql | grep -c "ok installed"" == 1 ]; then
+        	echo "MySQL on juba süsteemis olemas!"
+        	exit
+        else
+	echo "MySQL paigaldatakse..."
+	sudo apt --assume-yes install mysql-server
+	mysql_secure_installation
+	echo "MySQL on nüüd süsteemis olemas"
+	fi

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+sudo apt --assume-yes update
+sudo apt --assume-yes upgrade
+echo "Sisesta soovitud WordPress andmebaasi nimi: "
+read dbname
+echo "Sisesta soovitud WordPress kasutaja nimi: "
+read dbuser
+echo "Sisesta soovitud andmebaasi parool: "
+read dbpass
+echo "Sisesta MySQL admin kasutaja nimi: "
+read dbroot
+echo "Sisesta MySQL admin kasutaja parool: "
+read dbrootpass
+
+	if [ "dpkg-query -W -f='${Status}' apache2 | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' mysql-server | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' libapache2-mod-php | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' php-mcrypt | grep -c "ok installed""  == 1 ] && [ "dpkg-query -W -f='${Status}' php-mysql | grep -c "ok installed""  == 1 ]; then
+		echo "LAMP stack on juba olemas, jätkan WordPressi paigaldamisega!"
+	else
+		echo "LAMP stack puudub! LAMP paigaldamine..."
+		sudo apt --assume-yes install apache2 mysql-server php libapache2-mod-php php-mcrypt php-mysql
+		mysql_secure_installation
+	fi
+
+echo "WordPressi paigaldmine..."
+cd /var/www/html/
+sudo curl -O https://wordpress.org/latest.tar.gz
+sudo tar -zxvf latest.tar.gz
+cd wordpress
+sudo cp wp-config-sample.php wp-config.php
+sudo sed -e “s/database_name_here/$dbname/g” wp-config.php
+sudo sed -e “s/username_here/$dbuser/g” wp-config.php
+sudo sed “s/password_here/$dbpass/g” wp-config.php
+sudo mkdir -p wp-content/uploads
+sudo chmod 755 wp-content/uploads
+sudo rm latest.tar.gz
+cd ~
+
+mysql -u$dbroot -p$dbrootpass -e "create database $dbname; GRANT ALL PRIVILEGES ON $dbname.* TO $dbuser@localhost IDENTIFIED BY '$dbpass'"
+echo "WordPress paigaldatud"
