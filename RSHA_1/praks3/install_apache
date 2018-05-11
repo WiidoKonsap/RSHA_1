@@ -1,8 +1,12 @@
 #!/bin/bash
+#
+#
+#
+#
 sudo apt --assume-yes update
 sudo apt --assume-yes upgrade
 if [ "dpkg-query -W -f='${Status}' apache2 | grep -c "ok installed"" == 1 ]; then
-echo "apache on juba olemas"
+echo "apache2 on juba olemas"
 exit
 else
 echo "apache installitakse"
