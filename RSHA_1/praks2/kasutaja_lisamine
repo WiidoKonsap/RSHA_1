@@ -1,5 +1,8 @@
 #!/bin/bash
 #kasutaja lisamine
+#
+#
+#
 if [ $# -ne 1 ]; then
 	echo "kasutajajuhend: $0 kasutajanimi"
 else
