@@ -1,7 +1,6 @@
 #!/bin/bash
 #
 #
-#
 #php installeerimine
 
 sudo apt --assume-yes update
