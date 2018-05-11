@@ -1,56 +1,52 @@
 #!/bin/bash
-#
-#
-#
-#
-#
+#database kasutajad
 user=$1
 parool=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w5 | head -n1)
-echo "password=$parool" > .parool.tmp
-echo "$parool" > .parool1.tmp
+		echo "password=$parool" > .parool.tmp
+		echo "$parool" > .parool1.tmp
 
 	if [ $# -ne 1 ]; then
 		echo "Kasutusjuhend: $0 Kasutajanimi"
-elif [ ! -e /home/$user/.my.cnf ];
-then
+	elif [ ! -e /home/$user/.my.cnf ];
+	then
 
-echo " Sinu kodukataloogist puudub andmebaasi fail, konfiguratsioonifaili loomine."
-echo " Sisesta Andmebaasi root parool:"
+		echo " andmebaasi fail puudub"
+		echo " root parool:"
 	read rootpass
 
-	echo "[client]" > /home/$user/.my.cnf
-	echo "user=$user" >> /home/$user/.my.cnf
+		echo "[client]" > /home/$user/.my.cnf
+		echo "user=$user" >> /home/$user/.my.cnf
 	paste .parool.tmp >> /home/$user/.my.cnf
 
-echo "Sisesta andmebaasi nimi"
-read dbname1
+		echo "andmebaasi nimi"
+	read dbname1
 dbname2="$user""_""$dbname1"
 
-for dbpass in $(cat .parool1.tmp)
-do
+	for dbpass in $(cat .parool1.tmp)
+	do
 mysql -uroot -p$rootpass -e "create database $dbname2 ; GRANT ALL PRIVILEGES ON $dbname2.* TO $user@localhost IDENTIFIED BY '$dbpass'"
-	echo "Andmebaas vajalike parameetritega loodud"
-done
+		echo "Andmebaas on loodud!"
+	done
 
-	chmod 0644 /home/$user/.my.cnf
-	chown "$user"":""$user" /home/$user/.my.cnf
-	rm .parool1.tmp
-	rm .parool.tmp
+		chmod 0644 /home/$user/.my.cnf
+		chown "$user"":""$user" /home/$user/.my.cnf
+		rm .parool1.tmp
+		rm .parool.tmp
 
-else
+	else
 
-echo "Sisesta andmebaasi nimi"
-read dbname1
+		echo "Sisesta andmebaasi nimi"
+	read dbname1
 dbname2="$user""_""$dbname1"
 
-for dbpass in $(cat .parool1.tmp)
-do
+	for dbpass in $(cat .parool1.tmp)
+	do
 mysql -uroot -p$rootpass -e "create database $dbname2 ; GRANT ALL PRIVILEGES ON $dbname2.* TO $user@localhost IDENTIFIED BY '$dbpass'"
-        echo "Andmebaas vajalike parameetritega loodud"
-done
+        	echo "Andmebaas vajalike parameetritega loodud"
+	done
 
-        chmod 0644 /home/$user/.my.cnf
-	chown "$user"":""$user" /home/$user/.my.cnf
-        rm .parool1.tmp
-        rm .parool.tmp
-fi
+       		chmod 0644 /home/$user/.my.cnf
+		chown "$user"":""$user" /home/$user/.my.cnf
+        	rm .parool1.tmp
+        	rm .parool.tmp
+	fi
