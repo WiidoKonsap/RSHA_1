@@ -14,7 +14,7 @@ if [ "$run" == n ] ; then
 exit
 else
 echo "wordpressi installeeritakse"
-#wp allalaadimine
+#wp allalaadimine..
 curl -O https://wordpress.org/latest.tar.gz
 #wordpressi lahtipakkimine
 tar -zxvf latest.tar.gz
